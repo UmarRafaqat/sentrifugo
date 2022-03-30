@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    stages {
+        stage('Scm Checkout') {
+            steps {
+                git 
+
+                }
+            }
+        stage('Execute Ansible') {
+            steps {
+                ansible
+                }
+            }
+        }
+    }
+}

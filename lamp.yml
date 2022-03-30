@@ -1,0 +1,40 @@
+#setup lamp stack
+  - hosts: 192.1.1.0  #replace this with you host ip address
+    tasks:
+      - name: install lamp stack
+        become: yes
+        become_user: root
+        yum:
+          pkg: 
+            - httpd
+            - mariadb-server
+            - php
+            - php-mysql
+          state: present
+          update_chache: yes
+
+      - name: Start Apache server
+        become: yes
+        become_user: root
+        service: 
+          name: httpd
+          state: started
+          enabled: yes
+
+      - name: Start mysql service
+        become: yes
+        become_user: root
+        service: 
+          name: mariadb
+          state: started
+          enabled: yes
+
+      - name: create target directory
+        file: path= /var/www/html state= directory mode= 0755
+
+      - name: deploy index.html
+        become: yes
+        become_user: root
+        copy:
+          src: .
+          dest: /var/www/html/
